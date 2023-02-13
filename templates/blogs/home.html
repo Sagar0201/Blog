@@ -1,0 +1,102 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{%block title%} THe Blogger {%endblock%}
+
+{% block css %}
+
+<style>
+
+
+</style>
+{% endblock %}
+
+{%block body%}
+
+    <!-- hero section -->
+    <section id="home" class="min-h-100vh flex justify-start items-center">
+        <div class="mx-5 md-mx-l5">
+            <div>
+                <h1 class="white fs-l3 lh-2 md-fs-xl1 md-lh-1 fw-900 single-blog ">THe Blogger </h1>
+
+                <div class="br-8 mt-10 inline-flex">
+                    <input type="text"
+                        class="input-lg half bw-0 fw-200 bg-indigo-lightest-10 white ph-indigo-lightest focus-white opacity-80 fs-s3 py-5 min-w-25vw br-r-0"
+                        placeholder="Email Address">
+                    <button
+                        class="button-lg bg-indigo-lightest-20 indigo-lightest focus-white fw-300 fs-s3 mr-0 br-l-0">Subscribe</button>
+                </div>
+                <div class="white opacity-20 fs-s3 mt-3">subscribe for more blogs</span>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- product options -->
+    <section class="p-10 md-p-l5">
+        <div class="blog-heading">
+            <h1 class="blog-title fs-m4 muli  fw-800 white">Top Blogs</h1>
+            <a href="{% url 'allBlogs' %}" class="button bg-white black fw-600 no-underline mx-5">All Blogs</a>
+        </div>
+
+        <div class="blog-container">
+<!-- hover-scale-up-1 ease-300 -->
+{% for blog in Blogs %}
+<div class="blog-card ">
+    <div class="blog-profile">
+        <div class="profile-img">
+            <img src="{{blog.blogger.profile_user.profile_pic.url}}" alt="">
+        </div>
+        <div class="profile-info">
+            <h4 class="user-name">
+                {{blog.blogger.get_full_name}}
+            </h4>
+        </div>
+    </div>
+    <div class="blog-info">
+        <div class="blog-title">
+            <h2 class="blog-head">
+                {{blog.title}}
+            </h2>
+        </div>
+        <div class="blog-body">
+            <p class="desc">
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{blog.description}}
+            </p>
+        </div>
+        <div class="blog-footer">
+            <a href="/all-blogs/{{blog.id}}" class="button bg-black fs-s3 white no-underline">Read More</a>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+
+    </div>
+    </section>
+
+
+
+    <!-- subscribe -->
+    <section class="p-10 md-p-l5">
+        <div class="br-8 bg-indigo-lightest-10 p-5 md-p-l5 flex flex-wrap md-justify-between md-items-center">
+            <div class="w-100pc md-w-33pc">
+                <h2 class="white fs-m4 fw-800">Try Hook today</h2>
+                <p class="fw-600 indigo-lightest opacity-40">Get first month free for commercial use. Forever free for
+                    open source products.</p>
+            </div>
+            <div class="w-100pc md-w-50pc">
+                <div class="flex my-5">
+                    <input type="text"
+                        class="input-lg flex-grow-1 bw-0 fw-200 bg-indigo-lightest-10 white ph-indigo-lightest focus-white opacity-80 fs-s3 py-5 br-r-0"
+                        placeholder="Email Address">
+                    <button class="button-lg bg-indigo indigo-lightest fw-300 fs-s3 br-l-0">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{%endblock%}

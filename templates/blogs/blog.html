@@ -1,0 +1,45 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{%block title%} THe Blogger : Blog {%endblock%}
+
+{% block css %}
+<style>
+    .blog-item p{
+        color: aliceblue;
+        font-size: 1rem;
+        word-spacing: 3px;
+        line-height: 1.7rem;
+    }
+    .background-img{
+        display: none;
+    }
+    .footer-blog{
+        margin-top: 3.5rem;
+        text-align: end;
+    }
+</style>
+
+{% endblock %}
+
+{%block body%}
+
+    <!-- product options -->
+    <section class="p-10 md-p-l5 blog-item">
+        <div class="blog-heading">
+            <h1 class="blog-title fs-m4 muli  fw-800 white">{{Blog.title}}</h1>
+        </div>
+
+        <div class="blog-desc">
+            <p>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{Blog.description}}
+            </p>
+        </div>
+        <div class="footer-blog">
+            <p class="created_by">Created by - {{Blog.blogger.get_full_name}}<p/>
+            <p class="created_by">Created at - {{Blog.created_at}}<p/>
+        </div>
+    </section>
+
+
+{%endblock%}

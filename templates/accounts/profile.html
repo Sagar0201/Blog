@@ -1,0 +1,174 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{%block title%} THe Blogger : Profile {%endblock%}
+
+{% block css %}
+<style>
+    .navbar-design{
+        display: none;
+    }
+    .blog-heading{
+        border: none;
+    }
+    .profile-page-design{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        padding-bottom: 5rem;
+    }
+    .profile{
+        padding: 1rem;
+        width: 100%;
+        border: 1px solid white;
+        background: transparent;
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        height: 15rem;
+        justify-content: space-around;
+    }
+    .profile-img{
+        width: 8rem;
+        height: 8rem;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 50%;
+    }
+    .profile-img img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+    }
+
+    .profile-blogs{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+    .profile-links{
+        display: flex;
+        /* align-items: center; */
+        /* justify-content: center; */
+    }
+    .profile-links ul{
+        margin:0 1.5rem;
+    }
+    .profile-links li{
+        color: aliceblue;
+        font-size: 1rem;
+        padding: 0.2em 0;
+    }
+</style>
+
+{% endblock %}
+
+{%block body%}
+
+   <section class="profile-page">
+    <div class="profile-page-design">
+        <div class="profile">
+            <div class="profile-info">
+                <div class="profile-img">
+                    <img src="{{request.user.profile_user.profile_pic.url}}" alt="">
+                </div>
+            </div>
+            <div class="profile-user-info">
+                <h2 class="white">{{request.user.get_full_name}}</h2>
+                <p class="white">Username- {{request.user.username}}</p>
+                {% if request.user.email %}
+                <p class="white">Email id -{{request.user.email}}</p>  
+                {% endif %}
+                {% if request.user.profile_user.is_blogger %}
+                <p class="white">Account Type - Blogger</p>
+                {% else %}
+                <p class="white">Account Type - Normal</p>
+                {% endif %}
+
+            </div>
+            <div class="profile-links">
+                <ul>
+                    <li><a href="{% url 'home' %}" class=" mx-3 py-3  no-underline hover-underline white">Home</a></li>
+                    <li><a href="#features" class=" mx-3 py-3  no-underline hover-underline white">About Us</a></li>
+                    <li><a href="#pricing" class=" mx-3 py-3  no-underline hover-underline white">Contact Us</a></li>
+                </ul>
+                <ul>
+                    <li><a href="{% url 'logout' %}" class=" mx-3 py-3  no-underline hover-underline white">Logout</a></li>
+                    <li><a href="{% url 'home' %}" class=" mx-3 py-3  no-underline hover-underline white">Password</a></li>
+                    
+                    {% if request.user.profile_user.is_blogger %}
+                    <li><a href="{% url 'addBlog' %}" class=" mx-3 py-3  no-underline hover-underline white">New Blog</a></li>
+                    {% else %}
+                    <li><a href="#" class=" mx-3 py-3  no-underline hover-underline white">Make Blogger</a></li>
+                    {% endif %}
+                </ul>   
+            </div>
+        </div>
+        {% if request.user.profile_user.is_blogger %}
+        {% if Blogs %}
+        <div class="blogs-items">
+            <div class="blog-heading">
+                <h1 class="blog-title fs-m4 muli  fw-800 white">Blogs</h1>
+                <div class="dropdown">
+                    <button class="button bg-white black fw-600 no-underline mx-5">Filter</button>
+                    <div class="dropdown-content">
+                        <li><a href="/profile/?category=0" class="white no-underline hover-underline">All</a></li>
+                        {% for cat in Category %}
+                            <li><a href="/profile/?category={{cat.id}}" class="white no-underline hover-underline">{{cat.category_name}}</a></li>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- <a href="#" class="button bg-white black fw-600 no-underline mx-5">Filter</a> -->
+            </div>
+        </div>
+        <div class="profile-blogs">
+
+            {% if Blogs %}
+            {% for blog in Blogs %}
+            <div class="blog-card ">
+                <div class="blog-profile">
+                    <div class="profile-img">
+                        <img src="{{blog.blogger.profile_user.profile_pic.url}}" alt="">
+                    </div>
+                    <div class="profile-info">
+                        <h4 class="user-name">
+                            {{blog.blogger.get_full_name}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="blog-info">
+                    <div class="blog-title">
+                        <h2 class="blog-head">
+                            {{blog.title}}
+                        </h2>
+                    </div>
+                    <div class="blog-body">
+                        <p class="desc">
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{blog.description}}
+                        </p>
+                    </div>
+                    <div class="blog-footer">
+                        <a href="/all-blogs/{{blog.id}}" class="button bg-black fs-s3 white no-underline">Read More</a>
+                        <a href="/edit-blog/{{blog.id}}" class="button bg-white fs-s2 black no-underline">Edit</a>
+                        <a href="/delete-blog/{{blog.id}}" class="button bg-red fs-s2 white no-underline">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h1 class="blog-title fs-m4 muli md-p-l5  fw-800 white">Sorry blogs for this category not found</h1>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+   </section>
+
+
+{%endblock%}

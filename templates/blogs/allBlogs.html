@@ -1,0 +1,108 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{%block title%} THe Blogger :All Blogs {%endblock%}
+
+{% block css %}
+<style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background:transparent;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: black;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        padding: 1rem;
+        width: 17rem;
+        max-height: 15rem;
+        overflow: auto;
+        scrollbar-width: 0;
+        border-radius: 10px;
+        flex-direction: column;
+        top: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .dropdown-content::-webkit-scrollbar {
+        display: none;
+    }
+    .dropdown-content li{
+        color: #fff;
+    }
+
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+
+{% endblock %}
+
+{%block body%}
+
+<!-- product options -->
+<section class="p-10 md-p-l5">
+    <div class="blog-heading">
+        <h1 class="blog-title fs-m4 muli  fw-800 white">Blogs</h1>
+        <div class="dropdown">
+            <button class="button bg-white black fw-600 no-underline mx-5">{{Category_name}}</button>
+            <div class="dropdown-content">
+                <li><a href="/all-blogs/?category=0" class="white no-underline hover-underline">All</a></li>
+                {% for cat in Category %}
+                    <li><a href="/all-blogs/?category={{cat.id}}" class="white no-underline hover-underline">{{cat.category_name}}</a></li>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- <a href="#" class="button bg-white black fw-600 no-underline mx-5">Filter</a> -->
+    </div>
+
+    <div class="blog-container">
+        <!-- hover-scale-up-1 ease-300 -->
+        {% if Blogs %}
+        {% for blog in Blogs %}
+        <div class="blog-card ">
+            <div class="blog-profile">
+                <div class="profile-img">
+                    <img src="{{blog.blogger.profile_user.profile_pic.url}}" alt="">
+                </div>
+                <div class="profile-info">
+                    <h4 class="user-name">
+                        {{blog.blogger.get_full_name}}
+                    </h4>
+                </div>
+            </div>
+            <div class="blog-info">
+                <div class="blog-title">
+                    <h2 class="blog-head">
+                        {{blog.title}}
+                    </h2>
+                </div>
+                <div class="blog-body">
+                    <p class="desc">
+                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{blog.description}}
+                    </p>
+                </div>
+                <div class="blog-footer">
+                    <p>{{blog.updated_at}}</p>
+                    <a href="/all-blogs/{{blog.id}}" class="button bg-black fs-s3 white no-underline">Read More</a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        {% else %}
+        <h1 class="blog-title fs-m4 muli md-p-l5  fw-800 white">Sorry blogs for this category  not found</h1>
+        {% endif %}
+
+    </div>
+</section>
+
+
+{%endblock%}
